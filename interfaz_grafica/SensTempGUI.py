@@ -4,8 +4,6 @@ import pygtk
 pygtk.require('2.0')
 import gtk 
 import time
-import wit
-import json
 import thread
 import threading
 gtk.gdk.threads_init()
@@ -41,19 +39,6 @@ class TempSysApp:
 			self.label2.set_text(str(temp))
 			time.sleep(0.4)	
 	
-	def voz(self, widget):
-		
-		access_token = 'A2SBZ7H2CWS5CMQSQUE3KE626K7SP6OX'
-		wit.init()
-		response = wit.voice_query_auto(access_token)
-		msj = json.loads(response)
-		if (msj['outcomes'][0]['entities']['on_off'][0]['value'])=='on':
-			self.ser.write('1')
-			print "Cooler Prendido"
-		if (msj['outcomes'][0]['entities']['on_off'][0]['value'])=='off':
-			self.ser.write('0')
-			print "Cooler Apagado"
-		
 
 	def __init__(self):
 			
@@ -100,10 +85,6 @@ class TempSysApp:
 		boton1=gtk.ToggleButton("Prender Ventilador")
 		boton1.connect("toggled", self.funcion_boton)
 		acciones3_hbox.pack_start(boton1, False, False,10)
-		#========Boton Voz==========================
-		boton2=gtk.ToggleButton("Voz")
-		boton2.connect("clicked", self.voz)
-		#acciones3_hbox.pack_start(boton2, False, False,10)
 		
 		
 		wTemp = threading.Thread(target=self.worker)
